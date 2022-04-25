@@ -4311,6 +4311,7 @@ static int ndpi_callback_init(struct ndpi_detection_module_struct *ndpi_str) {
   /* WSD */
   init_wsd_dissector(ndpi_str, &a, detection_bitmask);
   init_wzry_dissector(ndpi_str, &a, detection_bitmask);
+  init_wechat_dissector(ndpi_str, &a, detection_bitmask);
 
 #ifdef CUSTOM_NDPI_PROTOCOLS
 #include "../../../nDPI-custom/custom_ndpi_main_init.c"

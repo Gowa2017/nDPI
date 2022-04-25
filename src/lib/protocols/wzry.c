@@ -18,17 +18,13 @@ void ndpi_search_wzry(struct ndpi_detection_module_struct *ndpi_struct,
 
     NDPI_LOG_DBG(ndpi_struct, "search WZRY\n");
 
-    fprintf(stderr,"%d,%d\n",flow->l4_proto, IPPROTO_TCP);
-    fprintf(stderr,"%s -> %d",flow->saddr, flow->saddr);
-
-
     if (flow->l4_proto == IPPROTO_TCP && packet->l3_packet_len > 4 &&
         get_u_int8_t(packet->payload, 0) == 0x33 &&
         get_u_int8_t(packet->payload, 1) == 0x66 &&
         get_u_int8_t(packet->payload, 2) == 0x00 &&
         get_u_int8_t(packet->payload, 3) == 0x09) {
         NDPI_LOG_INFO(ndpi_struct, "found WZRY TCP\n");
-        fprintf(stderr,"found WZRY\n");
+        fprintf(stderr, "found WZRY\n");
 
         ndpi_int_wzry_add_connection(ndpi_struct, flow);
     } else if (flow->l4_proto == IPPROTO_UDP && packet->l3_packet_len > 4 &&
@@ -37,10 +33,10 @@ void ndpi_search_wzry(struct ndpi_detection_module_struct *ndpi_struct,
                ntohl(get_u_int8_t(packet->payload, 2)) == 0x00 &&
                ntohl(get_u_int8_t(packet->payload, 3)) == 0x00) {
         NDPI_LOG_INFO(ndpi_struct, "found WZRY TCP\n");
-        fprintf(stderr,"found WZRY\n");
+        fprintf(stderr, "found WZRY\n");
         ndpi_int_wzry_add_connection(ndpi_struct, flow);
     } else {
-        if (flow->num_processed_pkts > 8) NDPI_EXCLUDE_PROTO(ndpi_struct, flow);
+        // if (flow->num_processed_pkts > 8) NDPI_EXCLUDE_PROTO(ndpi_struct, flow);
     }
 }
 
