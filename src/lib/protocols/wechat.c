@@ -22,8 +22,8 @@ void prt_session(struct ndpi_flow_struct   *flow,
     inet_ntop(AF_INET, (void *)&addr, src_addr, 16);
     addr.s_addr = flow->daddr;
     inet_ntop(AF_INET, (void *)&addr, dst_addr, 16);
-    fprintf(stderr, "%s:%d -> %s:%d\t%x\n", src_addr, ntohs(flow->sport),
-            dst_addr, ntohs(flow->dport),
+    fprintf(stderr, "wechat\t%s:%d -> %s:%d\t%x\n", src_addr,
+            ntohs(flow->sport), dst_addr, ntohs(flow->dport),
             packet && packet->payload_packet_len > 4
                 ? ntohl(get_u_int32_t(packet->payload, 0))
                 : 0);
@@ -38,11 +38,9 @@ void ndpi_search_wechat(struct ndpi_detection_module_struct *ndpi_struct,
         (ntohl(get_u_int32_t(packet->payload, 0)) == 0x17f10401)) {
         NDPI_LOG_INFO(ndpi_struct, "found WECHAT\n");
         ndpi_int_wechat_add_connection(ndpi_struct, flow);
-        fprintf(stderr, "wechat\n");
         prt_session(flow, packet);
     } else {
-        if (flow->num_processed_pkts > 8) NDPI_EXCLUDE_PROTO(ndpi_struct,
-        flow);
+        if (flow->num_processed_pkts > 8) NDPI_EXCLUDE_PROTO(ndpi_struct, flow);
     }
 }
 
